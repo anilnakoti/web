@@ -1,0 +1,167 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Rewards & Recognition</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Rewards</a></li>
+        <li class="breadcrumb-item active">Nominate</li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section" *ngIf="!isNominationCreated">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Nomination for Rewards and Recognition</h5>
+        <form
+          name="form"
+          #nominationForm="ngForm"
+          (ngSubmit)="nominationForm.valid && onSubmit(nominationForm)"
+          novalidate
+        >
+          <div class="mb-3">
+            <label class="col-form-label"
+              >1. Whom do you want to nominate?
+              <span style="color: red">*</span></label
+            >
+            <div *ngIf="usersList.length > 0">
+              <ng-select
+                [items]="usersList"
+                [searchable]="true"
+                bindLabel="name"
+                bindValue="id"
+                placeholder="Select employee"
+                [(ngModel)]="nominee1"
+                [ngModelOptions]="{ standalone: true }"
+              >
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="inputPassword" class="col-form-label"
+              >Why do you want to nominate the above employee?
+              <span style="color: red">*</span></label
+            >
+            <div>
+              <textarea
+                name="reason"
+                #state="ngModel"
+                class="form-control"
+                [(ngModel)]="reason1"
+                style="height: 100px"
+                [ngModelOptions]="{ standalone: true }"
+                [ngClass]="{
+                  'invalid-textbox': nominationForm.submitted && state.invalid
+                }"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="col-form-label"
+              >2. Whom do you want to nominate?</label
+            >
+            <div class="nominee-select" *ngIf="usersList.length > 0">
+              <ng-select
+                [items]="usersList"
+                bindLabel="name"
+                bindValue="id"
+                placeholder="Select employee"
+                [(ngModel)]="nominee2"
+                [ngModelOptions]="{ standalone: true }"
+              >
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="inputPassword" class="col-form-label"
+              >Why do you want to nominate the above employee?</label
+            >
+            <div>
+              <textarea
+                name="reason"
+                class="form-control"
+                [(ngModel)]="reason2"
+                [ngModelOptions]="{ standalone: true }"
+                style="height: 100px"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="col-sm-10">
+              <button
+                *ngIf="!isFormSubmitted"
+                type="submit"
+                class="btn btn-primary"
+              >
+                Submit
+              </button>
+              <button
+                *ngIf="isFormSubmitted"
+                class="btn btn-primary"
+                type="button"
+                disabled
+              >
+                <span
+                  class="spinner-border spinner-border-md"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Loading...
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="isNominationCreated" class="section dashboard">
+    <div class="container mt-3">
+      <div class="mt-4 p-5 bg-secondary text-white rounded">
+        <h1 class="text-center">Thanks you for your nominations</h1>
+      </div>
+    </div>
+  </section>
+
+  <div
+    [@dialog]
+    class="modal"
+    role="dialog"
+    [ngStyle]="{ display: displayStyle }"
+    tabindex="-1"
+  >
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h1 class="text-center">Rewards and Recognition</h1>
+          <img
+            class="img-responsive img-center mb-3"
+            src="assets/img/rewards-banner.png"
+            alt="RNR"
+          />
+
+          <p class="p-5 bg-grey text-black rounded">
+            Is our approach to thanking the hardworking and committed people who
+            make SpringUp Labs what it is today !!! We would be glad to have
+            your contribution into R&R process to nominate people, who do
+            amazing things So if you think someone who deserves to be rewarded,
+            nominate him/her today!!!
+          </p>
+          <button
+            (click)="closePopup()"
+            type="button"
+            class="btn btn-link"
+            data-bs-dismiss="modal"
+            style="float: right; text-decoration: none"
+          >
+            Get started
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
